@@ -2,12 +2,16 @@
 import sounddevice as sd
 from scipy.io.wavfile import write
 import wavio as wv
+import whisper
+import time
+
 
 # Sampling frequency
 freq = 44100
 
 # Recording duration
 duration = 5
+filename = "C:/Users/carso/OneDrive/Desktop/voice-to-anything/src/finished_recording.wav"
 
 # Start recorder with the given values 
 # of duration and sample frequency
@@ -22,6 +26,13 @@ sd.wait()
 write("recording_test.wav", freq, recording)
 
 # Convert the NumPy array to audio file
-wv.write("recording_finished.wav", recording, freq, sampwidth=2)
+audio_file = wv.write(filename, recording, freq, sampwidth=2)
+time.sleep(2) # hope this works by waiting for file to be written
+
+model = whisper.load_model("turbo")
+result = model.transcribe(filename)
+print(result["text"])
+input("Press Enter to continue...")
+
 
 # https://www.geeksforgeeks.org/python/create-a-voice-recorder-using-python/
