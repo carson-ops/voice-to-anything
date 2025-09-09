@@ -9,3 +9,6 @@ A Python toolkit that converts voice input into useful outputs:
 ## Setup
 ```bash
 pip install -r requirements.txt
+
+---
+**ETA: Unkown**
