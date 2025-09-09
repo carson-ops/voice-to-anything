@@ -6,9 +6,10 @@ A Python toolkit that converts voice input into useful outputs:
 - Action items
 - Integrations (calendar, notes, etc.)
 
-### Setup
+## Setup
 ```bash
 pip install -r requirements.txt
 
 ---
+
 **ETA: Unkown**
