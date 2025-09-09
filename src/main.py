@@ -23,3 +23,5 @@ write("recording_test.wav", freq, recording)
 
 # Convert the NumPy array to audio file
 wv.write("recording_finished.wav", recording, freq, sampwidth=2)
+
+# https://www.geeksforgeeks.org/python/create-a-voice-recorder-using-python/
