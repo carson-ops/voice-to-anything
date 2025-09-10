@@ -90,7 +90,7 @@ def transcribe_audio(settings):
     if save_option == 'y':
         with open(transcription_filename, "w") as f:
             f.write(f"TRANSCRIPTION: \n{result["text"]}")
-        print("Transcription saved to src/transcription.txt")
+        print(f"Transcription saved to {transcription_filename}")
     elif save_option == 'n':
         print("Transcription not saved.")
     else:
@@ -114,12 +114,15 @@ def settings_menu(settings):
     if choice == '1':
         new_filename = input("Enter new filename (with .wav extension): ").strip()
         settings['filename'] = new_filename
+        settings_menu(settings)
     elif choice == '2':
         new_duration = int(input("Enter new duration (in seconds): ")).strip()
         settings['duration'] = int(new_duration)
+        settings_menu(settings)
     elif choice == '3':
         new_transcription_file = input("Enter new transcription filename (with .txt extension): ").strip()
         settings['transcription_file'] = new_transcription_file
+        settings_menu(settings)
     elif choice == '4':
         main_menu(settings)
     else:
