@@ -46,6 +46,8 @@ def main_menu(settings):
         settings_menu(settings)
     elif choice == '6':
         os._exit(0)
+    else:
+        main_menu(settings) 
 
 
 def transcribe_audio(settings):
