@@ -20,6 +20,7 @@ freq = 44100
 
 default_duration = 5 # seconds
 default_filename = "src/finished_recording.wav"
+default_transcription_file = "src/transcription.txt"
 
 
 def clear_console():
@@ -43,12 +44,15 @@ def main_menu(settings):
         pass
     elif choice == '5':
         settings_menu(settings)
+    elif choice == '6':
+        os._exit(0)
 
 
 def transcribe_audio(settings):
     clear_console()
     duration = settings.get("duration", default_duration)
     filename = settings.get("filename", default_filename)
+    transcription_filename = settings.get("transcription_file", default_transcription_file)
 
     print(f"Recording for {duration} seconds...")
 
@@ -71,8 +75,8 @@ def transcribe_audio(settings):
     audio_file = wv.write(settings["filename"], recording, freq, sampwidth=2)
     time.sleep(2) # hope this works by waiting for file to be written
 
-
     # https://www.geeksforgeeks.org/python/create-a-voice-recorder-using-python/
+
 
     # Transcribe w/ Whisper
     model = whisper.load_model("turbo")
@@ -80,7 +84,17 @@ def transcribe_audio(settings):
     clear_console()
 
     print(result["text"])
-    input("Press Enter to continue...")
+    save_option = input("\nWould you like to save this transcription? (y/n): ").lower()
+    if save_option == 'y':
+        with open(transcription_filename, "w") as f:
+            f.write(f"TRANSCRIPTION: \n{result["text"]}")
+        print("Transcription saved to src/transcription.txt")
+    elif save_option == 'n':
+        print("Transcription not saved.")
+    else:
+        print("Invalid input. Transcription not saved.")
+
+    input("\nPress Enter to return to the main menu...")
 
     main_menu(settings) # END of function
 
@@ -90,7 +104,8 @@ def settings_menu(settings):
     print(f"""         SETTINGS
     [1] Change Filename | Current: {settings['filename']}
     [2] Change Duration | Current: {settings['duration']} seconds
-    [3] Back to Main Menu
+    [3] Change Transcription File | Current: {settings['transcription_file']}
+    [4] Back to Main Menu
 
     """)
     choice = input("Enter your choice: ")
@@ -101,6 +116,9 @@ def settings_menu(settings):
         new_duration = int(input("Enter new duration (in seconds): ")).strip()
         settings['duration'] = int(new_duration)
     elif choice == '3':
+        new_transcription_file = input("Enter new transcription filename (with .txt extension): ").strip()
+        settings['transcription_file'] = new_transcription_file
+    elif choice == '4':
         main_menu(settings)
     else:
         settings() # restart settings if invalid input
@@ -108,6 +126,7 @@ def settings_menu(settings):
 if __name__ == "__main__":
     settings = {
         "duration": default_duration,
-        "filename": default_filename
+        "filename": default_filename,
+        "transcription_file": default_transcription_file
     }
     main_menu(settings)
