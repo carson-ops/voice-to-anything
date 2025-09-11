@@ -14,6 +14,8 @@ import os
 from transformers import pipeline
 import keyboard
 import numpy as np
+import json
+
 
 os.system("title VOICE-TO-ANYTHING")
 
@@ -237,9 +239,15 @@ def settings_menu(settings):
         settings_menu(settings) # restart settings if invalid input
 
 if __name__ == "__main__":
-    settings = {
-        "filename": default_filename,
-        "audio_filename": default_audio_filename,
-        "transcription_file": default_transcription_file
-    }
+    if os.path.exists("settings.json"):
+        with open("settings.json", "r") as f:
+            settings = json.load(f)
+    else:
+        settings = {
+            "filename": default_filename,
+            "audio_filename": default_audio_filename,
+            "transcription_file": default_transcription_file
+        }
+        with open("settings.json", "w") as f:
+            json.dump(settings, f)
     main_menu(settings)
