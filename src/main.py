@@ -7,7 +7,6 @@
 # import required libraries
 import sounddevice as sd
 from scipy.io.wavfile import write
-import wavio as wv
 import whisper
 import time
 import os 
