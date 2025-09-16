@@ -5,40 +5,21 @@
 
 
 # import required libraries
-import sounddevice as sd
-from scipy.io.wavfile import write
-import whisper
-import time
-import os 
-from transformers import pipeline
-import keyboard
-import numpy as np
+
+from helper import *
 import json
 
 
 os.system("title VOICE-TO-ANYTHING")
 
-# Sampling frequency
-freq = 44100
-
-default_filename = "finished_recording.wav"
-default_audio_filename = "M_0880_14y6m_1.wav"
-default_transcription_file = "transcription.txt"
-
-default_ai_model = "turbo"
-model = whisper.load_model(default_ai_model)
-
 summarization = pipeline("summarization", model="facebook/bart-large-cnn")
-
-def clear_console():
-    os.system('cls' if os.name == 'nt' else 'clear')
 
 def main_menu(settings):
     clear_console()
     print("""           OPTIONS
     [1] Transcribe Audio [Recording]  
     [2] Transcribe Audio [File] 
-    [3] Summarize Audio [Recording] | Not in
+    [3] Summarize Audio [Recording] 
     [4] Summarize Audio [File] 
     [5] Settings
     [6] Exit
@@ -73,68 +54,9 @@ def save_transcription(result, transcription_filename):
     else:
         print("Invalid input. Transcription not saved.")
 
-def record_audio(filename): # Enter to stop recording
-    
-    recording = [] # list to hold chunks of audio data
-
-    with sd.InputStream(samplerate=freq, channels=1, dtype='float32') as stream:
-        while True:
-            data, overflowed = stream.read(1024) # reads 1024 samples at a time
-
-            # Check if data has something and is not empty
-            if data is not None and len(data) > 0:
-                recording.append(data)
-
-            if overflowed: # performance issue warning
-                print("Warning: Audio buffer overflowed! Not good")
-
-            if keyboard.is_pressed("enter"): # kills recording
-                time.sleep(0.5) # slight delay to ensure all data is captured
-                print("Recording stopped.")
-                break
-
-    # Combine all recorded chunks into a single NumPy array
-    audio_data = np.vstack(recording) # switched from concat to vstack. Chuncks is a list of (1024, 1) arrays, so vstack works better because it refuses to add arrays of different dimensions
-
-    # Convert float32 to int16 | GPT assisted
-    write(filename, freq, (audio_data * 32767).astype(np.int16)) 
-    input(f"Recording saved to {filename} | Press Enter to continue...")
-    return filename
 
 
-def transcribe_audio(settings):
-    clear_console()
-    filename = settings.get("filename", default_filename)
-    transcription_filename = settings.get("transcription_file", default_transcription_file)
-
-    print(f"Recording... Press 'Enter' to end recording\n")
-
-    record_audio(filename) # read above function for details
-    
-    clear_console()
-
-
-    # Transcribe w/ Whisper
-    result = model.transcribe(filename)
-    clear_console()
-
-    print(result["text"])
-    save_transcription(result, transcription_filename)
-
-    main_menu(settings) # END of function
-
-
-def transcribe_audio_file(settings):
-    clear_console()
-    filename = settings.get("audio_filename", default_audio_filename)
-    transcription_filename = settings.get("transcription_file", default_transcription_file)
-    result = model.transcribe(filename)
-    print(result["text"])
-    save_transcription(result["text"], transcription_filename)
-
-    main_menu(settings) # END of function
-
-def chunk_text(text, max_length=3000):
+def chunk_text(text, max_length=3000): # chunk it
     words = text.split()       # split into individual words ['word1', 'word2', ...]
     chunks = []                # list to store finished chunks
     current_chunk = ""         # string we're currently building
@@ -155,7 +77,7 @@ def chunk_text(text, max_length=3000):
 
     return chunks
 
-def summarize_long_text(text):
+def summarize_long_text(text): # put it in chunk -> summarize each chunk -> stich chunk together -> summarize again after stiched
     chunks = chunk_text(text, max_length=3000) # puts text into chunks max 3k characters
     summaries = [] # holds the chunks in a list
 
@@ -174,39 +96,6 @@ def summarize_long_text(text):
         )[0]['summary_text']
 
     return combined_summary
-
-
-def summarize_audio(settings): 
-    clear_console()
-    filename = settings.get("filename", default_filename)
-    transcription_file = settings.get("transcription_file", default_transcription_file)
-
-    print(f"Recording... Press 'Enter' to end recording\n")
-    record_audio(filename)  # read above function for details
-
-    clear_console()
-
-    result = model.transcribe(filename)
-    text = result["text"]
-    summary = summarize_long_text(text)
-    print(f"SUMMARY: \n{summary}\n")
-
-    save_transcription(summary, transcription_file)
-
-    main_menu(settings) # END of function
-
-def summarize_audio_file(settings):
-    clear_console()
-    filename = settings.get("audio_filename", default_audio_filename)
-    transcription_filename = settings.get("transcription_file", default_transcription_file)
-    result = model.transcribe(filename)
-    text = result["text"]
-    summary = summarize_long_text(text)
-    clear_console()
-    print(f"SUMMARY: \n{summary}\n")
-    save_transcription(summary, transcription_filename)
-
-    main_menu(settings) # END of function
 
 # CONFIGURATION / SETTINGS
 
