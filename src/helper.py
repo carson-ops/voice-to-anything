@@ -1,12 +1,11 @@
+from main import summarize_long_text, main_menu
 import os
+import time
+import numpy as np
 import whisper
-from transformers import pipeline
 from scipy.io.wavfile import write
 import sounddevice as sd
 import keyboard
-import numpy as np
-import time
-from main import save_transcription, summarize_long_text ,main_menu
 
 
 default_ai_model = "turbo"
@@ -24,7 +23,7 @@ def clear_console():
 
 
 def record_audio(filename): # Enter to stop recording
-    
+
     recording = [] # list to hold chunks of audio data
 
     with sd.InputStream(samplerate=freq, channels=1, dtype='float32') as stream:
@@ -47,9 +46,20 @@ def record_audio(filename): # Enter to stop recording
     audio_data = np.vstack(recording) # switched from concat to vstack. Chuncks is a list of (1024, 1) arrays, so vstack works better because it refuses to add arrays of different dimensions
 
     # Convert float32 to int16 | GPT assisted
-    write(filename, freq, (audio_data * 32767).astype(np.int16)) 
+    write(filename, freq, (audio_data * 32767).astype(np.int16))
     input(f"Recording saved to {filename} | Press Enter to continue...")
     return filename
+
+
+def save_transcription(result, transcription_filename):
+    save_option = input("\nWould you like to save this transcription? (y/n): ").lower()
+    if save_option == 'y':
+        with open(transcription_filename, "w", encoding="utf-8") as f:
+            f.write(f"TRANSCRIPTION: \n{result['text']}")
+    elif save_option == 'n':
+        print("Transcription not saved.")
+    else:
+        print("Invalid input. Transcription not saved.")
 
 # AUDIO FUNCTIONS
 
@@ -58,10 +68,10 @@ def transcribe_audio(settings):
     filename = settings.get("filename", default_filename)
     transcription_filename = settings.get("transcription_file", default_transcription_file)
 
-    print(f"Recording... Press 'Enter' to end recording\n")
+    print("Recording... Press 'Enter' to end recording\n")
 
     record_audio(filename) # read above function for details
-    
+
     clear_console()
 
 
@@ -86,12 +96,12 @@ def transcribe_audio_file(settings):
     main_menu(settings) # END of function
 
 
-def summarize_audio(settings): 
+def summarize_audio(settings):
     clear_console()
     filename = settings.get("filename", default_filename)
     transcription_file = settings.get("transcription_file", default_transcription_file)
 
-    print(f"Recording... Press 'Enter' to end recording\n")
+    print("Recording... Press 'Enter' to end recording\n")
     record_audio(filename)  # read above function for details
 
     clear_console()

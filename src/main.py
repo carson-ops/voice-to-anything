@@ -6,8 +6,10 @@
 
 # import required libraries
 
-from helper import *
+from helper import * 
+import os
 import json
+from transformers import pipeline
 
 
 os.system("title VOICE-TO-ANYTHING")
@@ -44,17 +46,6 @@ def main_menu(settings):
         main_menu(settings) 
 
 # FUNCTIONS
-
-def save_transcription(result, transcription_filename):
-    save_option = input("\nWould you like to save this transcription? (y/n): ").lower()
-    if save_option == 'y':
-        with open(transcription_filename, "w") as f:
-            f.write(f"TRANSCRIPTION: \n{result['text']}")
-    elif save_option == 'n':
-        print("Transcription not saved.")
-    else:
-        print("Invalid input. Transcription not saved.")
-
 
 
 def chunk_text(text, max_length=3000): # chunk it
@@ -114,19 +105,19 @@ def settings_menu(settings): # could optimize to use less code down the line
     if choice == '1':
         new_filename = input("Enter new filename (with .wav extension): ").strip()
         settings['filename'] = new_filename
-        with open("settings.json", "w") as f:
+        with open("settings.json", "w", encoding="utf-8") as f:
             json.dump(settings, f, indent=4)
         settings_menu(settings)
     elif choice == '2':
         new_transcription_file = input("Enter new transcription filename (with .txt extension): ").strip()
         settings['transcription_file'] = new_transcription_file
-        with open("settings.json", "w") as f:
+        with open("settings.json", "w", encoding="utf-8") as f:
             json.dump(settings, f, indent=4)
         settings_menu(settings)
     elif choice == '3':
         new_audio_file = input("Enter new audio filename (with .wav extension): ").strip()
         settings['audio_filename'] = new_audio_file
-        with open("settings.json", "w") as f:
+        with open("settings.json", "w", encoding="utf-8") as f:
             json.dump(settings, f, indent=4)
         settings_menu(settings)
     elif choice == '4':
@@ -137,7 +128,7 @@ def settings_menu(settings): # could optimize to use less code down the line
                 "audio_filename": default_audio_filename,
                 "transcription_file": default_transcription_file
             }
-            with open("settings.json", "w") as f:
+            with open("settings.json", "w", encoding="utf-8") as f:
                 json.dump(settings, f, indent=4)
             main_menu(settings)
     elif choice == '5':
@@ -147,7 +138,7 @@ def settings_menu(settings): # could optimize to use less code down the line
 
 if __name__ == "__main__":
     if os.path.exists("settings.json"):
-        with open("settings.json", "r") as f:
+        with open("settings.json", "r", encoding="utf-8") as f:
             settings = json.load(f)
     else:
         settings = {
@@ -155,6 +146,6 @@ if __name__ == "__main__":
             "audio_filename": default_audio_filename,
             "transcription_file": default_transcription_file
         }
-        with open("settings.json", "w") as f:
-            json.dump(settings, f)
+        with open("settings.json", "w", encoding="utf-8") as f:
+            json.dump(settings, f, indent=4)
     main_menu(settings)
