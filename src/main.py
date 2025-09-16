@@ -14,6 +14,7 @@ os.system("title VOICE-TO-ANYTHING")
 
 summarization = pipeline("summarization", model="facebook/bart-large-cnn")
 
+
 def main_menu(settings):
     clear_console()
     print("""           OPTIONS
@@ -99,29 +100,47 @@ def summarize_long_text(text): # put it in chunk -> summarize each chunk -> stic
 
 # CONFIGURATION / SETTINGS
 
-def settings_menu(settings):
+def settings_menu(settings): # could optimize to use less code down the line
     clear_console()
     print(f"""         SETTINGS
     [1] Change Filename | Current: {settings['filename']}
     [2] Change Transcription File | Current: {settings['transcription_file']}
     [3] Change Audio File | Current: {settings['audio_filename']}
-    [4] Back to Main Menu
+    [4] Reset to Default
+    [5] Back to Main Menu
 
     """)
     choice = input("Enter your choice: ")
     if choice == '1':
         new_filename = input("Enter new filename (with .wav extension): ").strip()
         settings['filename'] = new_filename
+        with open("settings.json", "w") as f:
+            json.dump(settings, f, indent=4)
         settings_menu(settings)
     elif choice == '2':
         new_transcription_file = input("Enter new transcription filename (with .txt extension): ").strip()
         settings['transcription_file'] = new_transcription_file
+        with open("settings.json", "w") as f:
+            json.dump(settings, f, indent=4)
         settings_menu(settings)
     elif choice == '3':
         new_audio_file = input("Enter new audio filename (with .wav extension): ").strip()
         settings['audio_filename'] = new_audio_file
+        with open("settings.json", "w") as f:
+            json.dump(settings, f, indent=4)
         settings_menu(settings)
     elif choice == '4':
+        confirm_action = input("ARE YOU SURE YOU WANT TO RESET SETTINGS TO DEFAULT? (y/n): ")
+        if confirm_action == 'y' or confirm_action == 'Y':
+            settings = {
+                "filename": default_filename,
+                "audio_filename": default_audio_filename,
+                "transcription_file": default_transcription_file
+            }
+            with open("settings.json", "w") as f:
+                json.dump(settings, f, indent=4)
+            main_menu(settings)
+    elif choice == '5':
         main_menu(settings)
     else:
         settings_menu(settings) # restart settings if invalid input
