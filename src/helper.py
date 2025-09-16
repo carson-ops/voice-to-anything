@@ -8,6 +8,7 @@ import numpy as np
 import time
 from main import save_transcription, summarize_long_text ,main_menu
 
+
 default_ai_model = "turbo"
 model = whisper.load_model(default_ai_model)
 
