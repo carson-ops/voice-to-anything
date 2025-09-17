@@ -1,3 +1,7 @@
+# ISSUES
+# 1. Docker "File not Found" for TAudioF
+# 2. Fix "UnicodeEncodeError: 'charmap' codec can't encode characters in position 5729-5732: character maps to <undefined>" on TAudioF for "M_0880_14y6m_1.wav"
+
 from helper import *
 from transformers import pipeline
 import argparse
