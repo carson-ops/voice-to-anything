@@ -27,4 +27,4 @@ COPY . .
 
 # 7. Specify default command to run when the container starts
 #    - Uses "exec form" (list syntax) so it handles signals properly
-CMD ["python", "src/DOCKER TOOL/main.py"]
+CMD ["python", "src/DOCKER_TOOL/main.py"]
