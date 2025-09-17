@@ -27,4 +27,6 @@ COPY . .
 
 # 7. Specify default command to run when the container starts
 #    - Uses "exec form" (list syntax) so it handles signals properly
-CMD ["python", "src/DOCKER_TOOL/main.py"]
+ENTRYPOINT ["python", "src/DOCKER_TOOL/main.py"]
+
+CMD ["--choice", "--transcript", "--wavfilename", "--filename"]
