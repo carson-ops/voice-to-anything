@@ -1,5 +1,5 @@
 # ISSUES
-# 1. Docker "File not Found" for TAudioF
+# 1. Docker "File not Found" for Audio Files including "TAudioF (Tested error) & SAudioF (not tested error)"
 # 2. Fix "UnicodeEncodeError: 'charmap' codec can't encode characters in position 5729-5732: character maps to <undefined>" on TAudioF for "M_0880_14y6m_1.wav"
 
 from helper import *
