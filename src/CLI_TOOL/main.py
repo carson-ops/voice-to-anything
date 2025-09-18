@@ -16,6 +16,8 @@ os.system("title VOICE-TO-ANYTHING")
 
 summarization = pipeline("summarization", model="facebook/bart-large-cnn")
 
+def clear_console():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def main_menu(settings):
     clear_console()
