@@ -1,4 +1,4 @@
-from main import summarize_long_text, main_menu
+from main import summarize_long_text
 import os
 import time
 import numpy as np
@@ -9,6 +9,9 @@ import keyboard
 
 
 default_ai_model = "turbo"
+
+os.chdir("src/DOCKER_TOOL") # Took me forever to figure this out for some dumb reason
+
 model = whisper.load_model(default_ai_model)
 
 default_filename = "finished_recording.wav"
