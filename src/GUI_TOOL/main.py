@@ -1,13 +1,22 @@
 from helper import *
-from transformers import pipeline
+import os
+import time
+import numpy as np
 import sys
-from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton
+import json
+from transformers import pipeline
+from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QDialog
 from PySide6.QtCore import Qt
+from threading import Thread
+from scipy.io.wavfile import write
+import sounddevice as sd
+
 
 summarization = pipeline("summarization", model="facebook/bart-large-cnn")
 
-def main():
+def main(settings):
     app = QApplication(sys.argv)
+    stop_flag = None
 
     window = QWidget()
     window.setWindowTitle("Voice-to-Anything GUI")
@@ -30,6 +39,21 @@ def main():
             background-color: #2980b9;
         }
     """)
+
+    def toggle_recording(): # inline function 
+        nonlocal stop_flag # Refer to main function 2nd line, no global definition of this variable will be refered
+
+        if stop_flag is None: # stop_flag == None
+            stop_flag = start_recording_thread(settings)
+            audiobtn.setText("⏹")
+        else:
+            stop_flag[0] = True
+            stop_flag = None
+            audiobtn.setText("🎤")
+            transcribe_or_summarize(settings)
+
+    audiobtn.clicked.connect(toggle_recording) # Function called only when clicked
+
     layout.addWidget(audiobtn, 0, alignment=Qt.AlignCenter) # Had help from GPT to figure out aligning button to center
 
     window.setLayout(layout)
@@ -37,12 +61,42 @@ def main():
     sys.exit(app.exec())
 
 
-def record_audio(filename, audiobtn): # Enter to stop recording
+def transcribe_or_summarize(settings):
+    dialog = QDialog()
+    dialog.setWindowTitle("What do you want to do?")
+    dialog.resize(240,240)
+    layout = QVBoxLayout()
+
+    summarize_btn = QPushButton("Summarize")
+    transcribe_btn = QPushButton("Transcribe")
+
+    layout.addWidget(transcribe_btn)
+    layout.addWidget(summarize_btn)
+    dialog.setLayout(layout)
+
+    def summarize_and_close():
+        summarize_audio_file(settings)
+        dialog.close()
+
+    def transcribe_and_close():
+        transcribe_audio_file(settings)
+        dialog.close()
+
+    # Connect buttons
+    summarize_btn.clicked.connect(lambda: (summarize_and_close()), dialog.close())
+    transcribe_btn.clicked.connect(lambda: (transcribe_and_close()), dialog.close())
+
+    dialog.exec()
+
+
+def record_audio(settings, stop_flag): # Button to stop recording
+    filename = settings.get("audio_filename", default_audio_filename)
 
     recording = [] # list to hold chunks of audio data
 
     with sd.InputStream(samplerate=freq, channels=1, dtype='float32') as stream:
-        while True:
+        print("Recording!")
+        while not stop_flag[0]: # stop_flag[0] == False
             data, overflowed = stream.read(1024) # reads 1024 samples at a time
 
             # Check if data has something and is not empty
@@ -52,18 +106,19 @@ def record_audio(filename, audiobtn): # Enter to stop recording
             if overflowed: # performance issue warning
                 print("Warning: Audio buffer overflowed! Not good")
 
-            if audiobtn.pressed:
-                print("Recording stopped.")
-                break
-
     # Combine all recorded chunks into a single NumPy array
     audio_data = np.vstack(recording) # switched from concat to vstack. Chuncks is a list of (1024, 1) arrays, so vstack works better because it refuses to add arrays of different dimensions
-
+    
     # Convert float32 to int16 | GPT assisted
-
     write(filename, freq, (audio_data * 32767).astype(np.int16))
     print(f"Recording saved to {filename}")
     return filename
+
+def start_recording_thread(settings):
+    stop_flag = [False]
+    t = Thread(target=record_audio, args=(settings, stop_flag), daemon=True) # never knew what daemon was till now, allows you to close program while Thread is running
+    t.start()
+    return stop_flag
 
 
 def chunk_text(text, max_length=3000): # chunk it
@@ -110,9 +165,15 @@ def summarize_long_text(text): # put it in chunk -> summarize each chunk -> stic
 
 
 if __name__ == "__main__":
-    settings = {
-    "filename": default_filename,
-    "audio_filename": default_audio_filename,
-    "transcription_file": default_transcription_file
-    }
-    main()
+    if os.path.exists("settings.json"):
+        with open("settings.json", "r", encoding="utf-8") as f:
+            settings = json.load(f)
+    else:
+        settings = {
+            "audio_filename": default_audio_filename,
+            "transcription_file": default_transcription_file
+        }
+        with open("settings.json", "w", encoding="utf-8") as f:
+            json.dump(settings, f, indent=4)
+
+    main(settings)
