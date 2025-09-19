@@ -1,6 +1,7 @@
 from helper import *
 from transformers import pipeline
 
+
 summarization = pipeline("summarization", model="facebook/bart-large-cnn")
 
 def chunk_text(text, max_length=3000): # chunk it
