@@ -1,11 +1,3 @@
-# FUTURE UPDATES:
-# - Add GUI
-# - Add option to choose model size
-# - Summarize to important calendar events, notes, meetings, etc.
-
-
-# import required libraries
-
 from helper import * 
 import os
 import json
