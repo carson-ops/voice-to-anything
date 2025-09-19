@@ -1,17 +1,14 @@
-from main import summarize_long_text
+from main import summarize_long_text, record_audio
 import os
 import time
 import numpy as np
 import whisper
 from scipy.io.wavfile import write
 import sounddevice as sd
-import keyboard
+
 
 
 default_ai_model = "turbo"
-
-os.chdir("src/DOCKER_TOOL") # Took me forever to figure this out for some dumb reason
-
 model = whisper.load_model(default_ai_model)
 
 default_filename = "finished_recording.wav"
@@ -21,40 +18,6 @@ default_transcription_file = "transcription.txt"
 freq = 44100
 
 
-def clear_console():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-
-def record_audio(filename): # Enter to stop recording
-
-    recording = [] # list to hold chunks of audio data
-
-    with sd.InputStream(samplerate=freq, channels=1, dtype='float32') as stream:
-        while True:
-            data, overflowed = stream.read(1024) # reads 1024 samples at a time
-
-            # Check if data has something and is not empty
-            if data is not None and len(data) > 0:
-                recording.append(data)
-
-            if overflowed: # performance issue warning
-                print("Warning: Audio buffer overflowed! Not good")
-
-            if keyboard.is_pressed("enter"): # kills recording
-                time.sleep(0.5) # slight delay to ensure all data is captured
-                print("Recording stopped.")
-                break
-
-    # Combine all recorded chunks into a single NumPy array
-    audio_data = np.vstack(recording) # switched from concat to vstack. Chuncks is a list of (1024, 1) arrays, so vstack works better because it refuses to add arrays of different dimensions
-
-    # Convert float32 to int16 | GPT assisted
-
-    write(filename, freq, (audio_data * 32767).astype(np.int16))
-    print(f"Recording saved to {filename}")
-    return filename
-
-
 def save_transcription(text, transcription_filename):
     with open(transcription_filename, 'w') as f:
         f.write(f"TRANSCRIPTION:\n{text}")
@@ -62,7 +25,6 @@ def save_transcription(text, transcription_filename):
 # AUDIO FUNCTIONS
 
 def transcribe_audio(settings):
-    clear_console()
     filename = settings.get("filename", default_filename)
     transcription_filename = settings.get("transcription_file", default_transcription_file)
 
@@ -70,12 +32,11 @@ def transcribe_audio(settings):
 
     audio = record_audio(filename) # read above function for details
 
-    clear_console()
 
 
     # Transcribe w/ Whisper
     result = model.transcribe(audio)
-    clear_console()
+    
 
     print(result["text"])
     save_transcription(result, transcription_filename)
@@ -83,7 +44,7 @@ def transcribe_audio(settings):
 
 
 def transcribe_audio_file(settings):
-    clear_console()
+    
     filename = settings.get("audio_filename", default_audio_filename)
     transcription_filename = settings.get("transcription_file", default_transcription_file)
     result = model.transcribe(filename)
@@ -93,7 +54,7 @@ def transcribe_audio_file(settings):
 
 
 def summarize_audio(settings):
-    clear_console()
+    
     filename = settings.get("filename", default_filename)
     transcription_file = settings.get("transcription_file", default_transcription_file)
 
@@ -101,7 +62,7 @@ def summarize_audio(settings):
     
     audio = record_audio(filename)  # read above function for details
 
-    clear_console()
+    
 
     result = model.transcribe(audio)
     text = result["text"]
@@ -112,12 +73,12 @@ def summarize_audio(settings):
 
 
 def summarize_audio_file(settings):
-    clear_console()
+    
     filename = settings.get("audio_filename", default_audio_filename)
     transcription_filename = settings.get("transcription_file", default_transcription_file)
     result = model.transcribe(filename)
     text = result["text"]
     summary = summarize_long_text(text)
-    clear_console()
+    
     print(f"SUMMARY: \n{summary}\n")
     save_transcription(summary, transcription_filename)

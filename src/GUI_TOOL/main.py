@@ -1,8 +1,70 @@
 from helper import *
 from transformers import pipeline
-
+import sys
+from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton
+from PySide6.QtCore import Qt
 
 summarization = pipeline("summarization", model="facebook/bart-large-cnn")
+
+def main():
+    app = QApplication(sys.argv)
+
+    window = QWidget()
+    window.setWindowTitle("Voice-to-Anything GUI")
+    window.setFixedSize(400, 640)
+
+    layout = QVBoxLayout()
+
+    # Example circular button
+    audiobtn = QPushButton("🎤")
+    audiobtn.setFixedSize(100, 100)
+    audiobtn.setStyleSheet("""
+        QPushButton {
+            border-radius: 50px;
+            background-color: #3498db;
+            background-position: center;
+            color: white;
+            font-size: 24px;
+        }
+        QPushButton:hover {
+            background-color: #2980b9;
+        }
+    """)
+    layout.addWidget(audiobtn, 0, alignment=Qt.AlignCenter) # Had help from GPT to figure out aligning button to center
+
+    window.setLayout(layout)
+    window.show()
+    sys.exit(app.exec())
+
+
+def record_audio(filename, audiobtn): # Enter to stop recording
+
+    recording = [] # list to hold chunks of audio data
+
+    with sd.InputStream(samplerate=freq, channels=1, dtype='float32') as stream:
+        while True:
+            data, overflowed = stream.read(1024) # reads 1024 samples at a time
+
+            # Check if data has something and is not empty
+            if data is not None and len(data) > 0:
+                recording.append(data)
+
+            if overflowed: # performance issue warning
+                print("Warning: Audio buffer overflowed! Not good")
+
+            if audiobtn.pressed:
+                print("Recording stopped.")
+                break
+
+    # Combine all recorded chunks into a single NumPy array
+    audio_data = np.vstack(recording) # switched from concat to vstack. Chuncks is a list of (1024, 1) arrays, so vstack works better because it refuses to add arrays of different dimensions
+
+    # Convert float32 to int16 | GPT assisted
+
+    write(filename, freq, (audio_data * 32767).astype(np.int16))
+    print(f"Recording saved to {filename}")
+    return filename
+
 
 def chunk_text(text, max_length=3000): # chunk it
     words = text.split()       # split into individual words ['word1', 'word2', ...]
@@ -25,6 +87,7 @@ def chunk_text(text, max_length=3000): # chunk it
 
     return chunks
 
+
 def summarize_long_text(text): # put it in chunk -> summarize each chunk -> stich chunk together -> summarize again after stiched
     chunks = chunk_text(text, max_length=3000) # puts text into chunks max 3k characters
     summaries = [] # holds the chunks in a list
@@ -44,3 +107,12 @@ def summarize_long_text(text): # put it in chunk -> summarize each chunk -> stic
         )[0]['summary_text']
 
     return combined_summary
+
+
+if __name__ == "__main__":
+    settings = {
+    "filename": default_filename,
+    "audio_filename": default_audio_filename,
+    "transcription_file": default_transcription_file
+    }
+    main()
