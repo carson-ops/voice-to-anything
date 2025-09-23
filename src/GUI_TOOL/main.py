@@ -66,6 +66,8 @@ def main(settings):
     sys.exit(app.exec())
 
 
+# TODO: SETTINGS MENU
+
 def transcribe_or_summarize(settings):
     dialog = QDialog()
     dialog.setWindowTitle("What do you want to do?")
