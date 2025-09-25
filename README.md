@@ -18,10 +18,10 @@ To get started follow along.
 **You have setup the environment**
 
 ---
-## How to Run
-# CLI Tool
+# How to Run
+## CLI Tool
 1. Go into src/CLI_TOOL
 2. Run main.py
 
-# Docker Tool
+## Docker Tool
 1. Install Docker
