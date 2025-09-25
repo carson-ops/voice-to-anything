@@ -36,13 +36,13 @@ To get started follow along.
 6. --rm remvoes the running container after it is no longer running. Optional.
 7. Replace --args with the arguments of your choice.
 ARGS
-# Functional Args
+## Functional Args
 - **TAudioR**: Text Audio Recording | Requires a filename
 - **TAudioF**: Text Audio File | Requires a filename
 - **SAudioR**: Summarize Audio Recording | Requires a WAV file
 - **SAudioF**: Summarize Audio File | Requires a WAV file
 
-# Customizable Args
+## Customizable Args
 - **filename**: Recording Filename, for Recordings (R)
 - **transcript**: Transcript filename
 - **wavfilename**: .WAV Filename Prerecorded, For File (F)
