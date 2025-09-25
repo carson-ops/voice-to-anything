@@ -28,7 +28,7 @@ To get started follow along.
 2. ```bash
    docker build -t voice-to-anything .
    ```
-3. All this is, is building a Docker image file to run our app on that container.
+3. All this is, is building a Docker image file to run our app on.
 4. Now to actually run the program is easy.
 5. ```bash
    docker run --rm voice-to-anything --args
