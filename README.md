@@ -33,7 +33,7 @@ To get started follow along.
    docker run --rm voice-to-anything --args
    ```
 6. --rm removes the running container after it is no longer running. Optional.
-7. Replace --args with the arguments of your choice.
+7. Replace --args with the arguments of your choice. **Required**
 ## ARGS
 ### Functional Args
 - **--TAudioR**: Text Audio Recording | Requires a filename
