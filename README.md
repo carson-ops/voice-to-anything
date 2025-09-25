@@ -35,3 +35,8 @@ To get started follow along.
    ```
 6. --rm remvoes the running container after it is no longer running. Optional.
 7. Replace --args with the arguments of your choice.
+ARGS
+- **TAudioR**: Text Audio Recording
+- **TAudioF**: Text Audio File
+- **SAudioR**: Summarize Audio Recording
+- **SAudioF**: Summarize Audio File
