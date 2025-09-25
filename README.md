@@ -33,9 +33,9 @@ To get started follow along.
 5. ```bash
    docker run --rm voice-to-anything --args
    ```
-6. --rm remvoes the running container after it is no longer running. Optional.
+6. --rm removes the running container after it is no longer running. Optional.
 7. Replace --args with the arguments of your choice.
-ARGS
+# ARGS
 ## Functional Args
 - **TAudioR**: Text Audio Recording | Requires a filename
 - **TAudioF**: Text Audio File | Requires a filename
@@ -46,3 +46,10 @@ ARGS
 - **filename**: Recording Filename, for Recordings (R)
 - **transcript**: Transcript filename
 - **wavfilename**: .WAV Filename Prerecorded, For File (F)
+
+## Default Settings
+ - **File Name**: finished_recording.wav
+ - **Audio File Name**: M_0880_14y6m_1.wav
+ - **Transcription Text Name**: transcription.txt
+
+**WILL ADD GUI TUTORIAL SOON**
