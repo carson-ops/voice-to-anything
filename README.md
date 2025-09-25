@@ -15,7 +15,8 @@ I've made 3 different setups. To get started follow along.
 3. ```bash
    pip install -r requirements.txt
    ```
-**You have setup the environment**
+**You have now setup the environment**
+
 ---
-## How to Run
-# CLI Tool
+# How to Run
+## CLI Tool
