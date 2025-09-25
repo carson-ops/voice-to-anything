@@ -54,4 +54,3 @@ To get started follow along.
 
 ## GUI Tool
 - **Coming Soon**
----
