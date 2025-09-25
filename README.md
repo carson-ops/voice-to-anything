@@ -16,9 +16,12 @@ To get started follow along.
    pip install -r requirements.txt
    ```
 **You have setup the environment**
+
 ---
 ## How to Run
 # CLI Tool
 1. Go into src/CLI_TOOL
 2. Run main.py
 
+# Docker Tool
+1. Install Docker
