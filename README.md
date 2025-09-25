@@ -6,7 +6,7 @@ Ran off OpenAIs' Whisper library. A Python toolkit that converts voice input int
 - Integrations (calendar, notes, etc.) | **NOT ADDED**
 
 ## Setup
-I've made 3 different setups. To get started follow along.
+To get started follow along.
 
 1. ```bash
    git clone https://github.com/carson-ops/voice-to-anything
@@ -15,8 +15,10 @@ I've made 3 different setups. To get started follow along.
 3. ```bash
    pip install -r requirements.txt
    ```
-**You have now setup the environment**
-
+**You have setup the environment**
 ---
-# How to Run
-## CLI Tool
+## How to Run
+# CLI Tool
+1. Go into src/CLI_TOOL
+2. Run main.py
+
