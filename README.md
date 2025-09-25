@@ -51,5 +51,6 @@ To get started follow along.
  - **File Name**: finished_recording.wav
  - **Audio File Name**: M_0880_14y6m_1.wav
  - **Transcription Text Name**: transcription.txt
+---
 
 **WILL ADD GUI TUTORIAL SOON**
