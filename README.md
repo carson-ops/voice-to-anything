@@ -44,7 +44,7 @@ To get started follow along.
 
 ### Customizable Args
 - **--filename**: Recording Filename, for Recordings (R)
-- - **--wavfilename**: .WAV Filename Prerecorded, For File (F)
+- **--wavfilename**: .WAV Filename Prerecorded, For File (F)
 - **--transcript**: Transcript filename
 
 ### Default Settings
