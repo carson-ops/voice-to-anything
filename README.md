@@ -53,5 +53,5 @@ To get started follow along.
  - **Transcription Text Name**: transcription.txt
 
 ## GUI Tool
-- **Coming Soon...**
+- **Coming Soon**
 ---
