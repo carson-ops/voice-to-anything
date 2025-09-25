@@ -24,4 +24,14 @@ To get started follow along.
 2. Run main.py
 
 ## Docker Tool
-1. Install Docker
+1. Go into src/DOCKER_TOOL
+2. ```bash
+   docker build -t voice-to-anything .
+   ```
+3. All this is, is building a Docker image file to run our app on that container.
+4. Now to actually run the program is easy.
+5. ```bash
+   docker run --rm voice-to-anything --args
+   ```
+6. --rm remvoes the running container after it is no longer running. Optional.
+7. Replace --args with the arguments of your choice.
