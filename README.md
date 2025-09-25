@@ -52,5 +52,6 @@ To get started follow along.
  - **Audio File Name**: M_0880_14y6m_1.wav
  - **Transcription Text Name**: transcription.txt
 
-##
+## GUI Tool
+- **Coming Soon**
 ---
