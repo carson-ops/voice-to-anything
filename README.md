@@ -21,6 +21,7 @@ To get started follow along.
 ## CLI Tool
 1. Go into src/CLI_TOOL
 2. Run main.py
+3. **Will add more details later**
 
 ## Docker Tool
 1. Go into src/DOCKER_TOOL
@@ -43,8 +44,8 @@ To get started follow along.
 
 ### Customizable Args
 - **--filename**: Recording Filename, for Recordings (R)
+- - **--wavfilename**: .WAV Filename Prerecorded, For File (F)
 - **--transcript**: Transcript filename
-- **--wavfilename**: .WAV Filename Prerecorded, For File (F)
 
 ### Default Settings
  - **File Name**: finished_recording.wav
