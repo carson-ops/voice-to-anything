@@ -11,8 +11,7 @@ To get started follow along.
 1. ```bash
    git clone https://github.com/carson-ops/voice-to-anything
    ```
-2. Go into the src/ directory
-3. ```bash
+2. ```bash
    pip install -r requirements.txt
    ```
 **You have setup the environment**
