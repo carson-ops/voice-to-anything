@@ -37,15 +37,15 @@ To get started follow along.
 7. Replace --args with the arguments of your choice.
 # ARGS
 ## Functional Args
-- **TAudioR**: Text Audio Recording | Requires a filename
-- **TAudioF**: Text Audio File | Requires a filename
-- **SAudioR**: Summarize Audio Recording | Requires a WAV file
-- **SAudioF**: Summarize Audio File | Requires a WAV file
+- **--TAudioR**: Text Audio Recording | Requires a filename
+- **--TAudioF**: Text Audio File | Requires a filename
+- **--SAudioR**: Summarize Audio Recording | Requires a WAV file
+- **--SAudioF**: Summarize Audio File | Requires a WAV file
 
 ## Customizable Args
-- **filename**: Recording Filename, for Recordings (R)
-- **transcript**: Transcript filename
-- **wavfilename**: .WAV Filename Prerecorded, For File (F)
+- **--filename**: Recording Filename, for Recordings (R)
+- **--transcript**: Transcript filename
+- **--wavfilename**: .WAV Filename Prerecorded, For File (F)
 
 ## Default Settings
  - **File Name**: finished_recording.wav
