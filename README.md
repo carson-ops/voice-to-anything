@@ -5,7 +5,13 @@ Ran off OpenAIs' Whisper library. A Python toolkit that converts voice input int
 - Summarization
 - Integrations (calendar, notes, etc.) | **NOT ADDED**
 
-## Setup
+---
+# Before we Get Started
+- All models are ran locally. It might take time to download a model
+- I've made 3 versions, you can pick to your liking
+
+
+# Setup
 To get started follow along.
 
 1. ```bash
