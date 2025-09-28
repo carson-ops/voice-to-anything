@@ -7,7 +7,7 @@ from transformers import pipeline
 
 os.system("title VOICE-TO-ANYTHING")
 
-summarization = pipeline("summarization", model="facebook/bart-large-cnn")
+summarization = pipeline("summarization", model="facebook/bart-large-cnn") # MAYBE TODO: Switch from transformers to GPT4ALL
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
