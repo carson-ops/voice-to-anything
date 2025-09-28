@@ -4,6 +4,7 @@ import json
 from transformers import pipeline
 
 
+
 os.system("title VOICE-TO-ANYTHING")
 
 summarization = pipeline("summarization", model="facebook/bart-large-cnn")
@@ -91,8 +92,10 @@ def settings_menu(settings): # could optimize to use less code down the line
     [1] Change Filename | Current: {settings['filename']}
     [2] Change Transcription File | Current: {settings['transcription_file']}
     [3] Change Audio File | Current: {settings['audio_filename']}
-    [4] Reset to Default
-    [5] Back to Main Menu
+    [4] Change Notes File | Current: {settings['notes_file']}
+    [5] Change Calendar File | Current: {settings['calendar_file']}
+    [6] Reset to Default
+    [7] Back to Main Menu
 
     """)
     choice = input("Enter your choice: ")
@@ -115,6 +118,18 @@ def settings_menu(settings): # could optimize to use less code down the line
             json.dump(settings, f, indent=4)
         settings_menu(settings)
     elif choice == '4':
+        new_notes_file = input("Enter new notes filename (with .txt extension): ").strip()
+        settings['notes_file'] = new_notes_file
+        with open("settings.json", "w", encoding="utf-8") as f:
+            json.dump(settings, f, indent=4)
+        settings_menu(settings)
+    elif choice == '5':
+        new_calendar_file = input("Enter new calendar filename (with .txt extension): ").strip()
+        settings['calendar_file'] = new_notes_file
+        with open("settings.json", "w", encoding="utf-8") as f:
+            json.dump(settings, f, indent=4)
+        settings_menu(settings)
+    elif choice == '6':
         confirm_action = input("ARE YOU SURE YOU WANT TO RESET SETTINGS TO DEFAULT? (y/n): ")
         if confirm_action == 'y' or confirm_action == 'Y':
             settings = {
@@ -125,7 +140,7 @@ def settings_menu(settings): # could optimize to use less code down the line
             with open("settings.json", "w", encoding="utf-8") as f:
                 json.dump(settings, f, indent=4)
             main_menu(settings)
-    elif choice == '5':
+    elif choice == '7':
         main_menu(settings)
     else:
         settings_menu(settings) # restart settings if invalid input
@@ -138,7 +153,9 @@ if __name__ == "__main__":
         settings = {
             "filename": default_filename,
             "audio_filename": default_audio_filename,
-            "transcription_file": default_transcription_file
+            "transcription_file": default_transcription_file,
+            "notes_file": default_notes_file,
+            "calendar_file": default_calendar_file
         }
         with open("settings.json", "w", encoding="utf-8") as f:
             json.dump(settings, f, indent=4)
