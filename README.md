@@ -7,6 +7,8 @@ Ran off OpenAIs' Whisper library. A Python toolkit that converts voice input int
 
 ---
 # Before we Get Started
+- **Docker Tool will not be getting anymore updates.** Would rather focus on updating CLI & GUI.
+- **I prioritize updating CLI more than GUI.** New features will come to CLI first, then to GUI.
 - All models are ran locally. It might take time to download a model
 - I've made 3 versions, you can pick to your liking
 
