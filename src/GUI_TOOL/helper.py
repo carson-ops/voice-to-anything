@@ -1,7 +1,9 @@
 from main import summarize_long_text, record_audio
 import whisper
+from gpt4all import GPT4All
+import os
 
-
+int_model = GPT4All("Phi-3-mini-4k-instruct.Q4_0.gguf")
 
 default_ai_model = "turbo"
 model = whisper.load_model(default_ai_model)
@@ -10,6 +12,12 @@ default_audio_filename = "finished_recording.wav"
 default_transcription_file = "transcription.txt"
 
 freq = 44100
+
+review_dir = "Reivew"
+os.makedirs(review_dir, exist_ok=True) # wow how could I overlook this
+
+default_notes_file = os.path.join(review_dir, "notes.txt") # Review/notes.txt
+default_calendar_file = os.path.join(review_dir, "calendar_dates.txt")
 
 
 def save_transcription(text, transcription_filename):
@@ -28,6 +36,11 @@ def transcribe_audio_file(settings):
         
 
         save_transcription(text, transcription_filename)
+
+        notes_file = settings.get("notes_file", default_notes_file)
+        calendar_file = settings.get("calendar_file", default_calendar_file)
+        calendar_notes(text, notes_file, calendar_file)
+
     except UnicodeEncodeError as e:
         print(f"Could not transcribe your audio. Please try again.\nError Code: {e}")
 
@@ -40,6 +53,26 @@ def summarize_audio_file(settings):
         text = result["text"]
         summary = summarize_long_text(text)
         
+        
         save_transcription(summary, transcription_filename)
+
+        notes_file = settings.get("notes_file", default_notes_file)
+        calendar_file = settings.get("calendar_file", default_calendar_file)
+        calendar_notes(text, notes_file, calendar_file)
+
     except UnicodeEncodeError as e:
         print(f"Could not transcribe your audio. Please try again.\nError Code: {e}")
+
+def calendar_notes(text, notes_file, calendar_file):
+
+        output = int_model.generate(f"Store the notes using a dash and newlines. Scan this text for any Notes to review.:\n{text}\n If no meaningful notes are found then say, No important notes found.")
+        output = output.partition("<|endoftext|>")[0] # kill the stupid nonsense generation that it does to reach token quota | also took longer than expected because I forgot to assign a output again to this line -_-
+        # print(output)
+        with open(notes_file, "w") as f:
+            f.write(output)
+
+        output = int_model.generate(f"Scan this text for important events to put in a calendar:\n{text}\nIf there is important calenar events store it like this, Date | Time | Event/Plan; state this first then put the calendar events. If there is not any important events then say, No important events found.")
+        output = output.partition("<|endoftext|>")[0] # Used .partition() instead of .split() because we only need to stop at index before <|endoftext|> we dont need to keep finding more <|endoftext|> after we already found one, why? because we "delete" everything after the 1st <|endoftext|>
+        # print(output)
+        with open(calendar_file, "w") as f:
+            f.write(output)

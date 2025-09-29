@@ -1,0 +1,5 @@
+
+ Note: A note is defined as any sentence that contains either "meeting" or "project".
+===
+June 26th - meeting with the VP of a certain company
+July 2nd - project check-in with a certain group

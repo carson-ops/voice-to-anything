@@ -4,8 +4,6 @@
 # 3. Figure out why whenever I change my JSON file and record it doesnt save with a new file name until a restart. Audio and Transcription name
 
 from helper import *
-import os
-import time
 import numpy as np
 import sys
 import json
@@ -96,6 +94,7 @@ def transcribe_or_summarize(settings):
     dialog.exec()
 
 
+
 def record_audio(settings, stop_flag): # Button to stop recording
     filename = settings.get("audio_filename", default_audio_filename)
 
@@ -178,7 +177,9 @@ if __name__ == "__main__":
     else:
         settings = {
             "audio_filename": default_audio_filename,
-            "transcription_file": default_transcription_file
+            "transcription_file": default_transcription_file,
+            "notes_file": "Reivew\\notes.txt",
+            "calendar_file": "Reivew\\calendar_dates.txt"
         }
         with open("settings.json", "w", encoding="utf-8") as f:
             json.dump(settings, f, indent=4)
