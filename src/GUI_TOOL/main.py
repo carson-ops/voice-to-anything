@@ -178,8 +178,8 @@ if __name__ == "__main__":
         settings = {
             "audio_filename": default_audio_filename,
             "transcription_file": default_transcription_file,
-            "notes_file": "Reivew\\notes.txt",
-            "calendar_file": "Reivew\\calendar_dates.txt"
+            "notes_file": default_notes_file,
+            "calendar_file": default_calendar_file
         }
         with open("settings.json", "w", encoding="utf-8") as f:
             json.dump(settings, f, indent=4)

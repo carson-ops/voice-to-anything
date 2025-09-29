@@ -1,4 +1,6 @@
 {
-    "audio_filename": "hi.wav",
-    "transcription_file": "transcription.txt"
+    "audio_filename": "finished_recording.wav",
+    "transcription_file": "transcription.txt",
+    "notes_file": "Reivew\\notes.txt",
+    "calendar_file": "Reivew\\calendar_dates.txt"
 }
