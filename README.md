@@ -3,7 +3,7 @@
 Ran off OpenAIs' Whisper library. A Python toolkit that converts voice input into useful outputs:
 - Transcription
 - Summarization
-- Calendar & Note taking | **ADDED ONLY IN CLI RIGHT NOW**
+- Calendar & Note taking | **NOT ADDED IN DOCKER TOOL**
 
 ---
 # Before we Get Started
