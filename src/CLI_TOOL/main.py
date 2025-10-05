@@ -1,4 +1,4 @@
-from helper import *
+import helper # circular imports
 import os
 import json
 from transformers import pipeline
@@ -13,32 +13,33 @@ def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def main_menu(settings):
-    clear_console()
-    print("""           OPTIONS
-    [1] Transcribe Audio [Recording]  
-    [2] Transcribe Audio [File] 
-    [3] Summarize Audio [Recording] 
-    [4] Summarize Audio [File] 
-    [5] Settings
-    [6] Exit
-
-    """)
-    choice = input("Enter your choice: ")
-    if choice == '1':
-        transcribe_audio(settings)
-    elif choice == '2':
-        transcribe_audio_file(settings)
-    elif choice == '3':
-        summarize_audio(settings)
-    elif choice == '4':
-        summarize_audio_file(settings)
-    elif choice == '5':
-        settings_menu(settings)
-    elif choice == '6':
+    while True:
         clear_console()
-        os._exit(0)
-    else:
-        main_menu(settings) 
+        print("""           OPTIONS
+        [1] Transcribe Audio [Recording]  
+        [2] Transcribe Audio [File] 
+        [3] Summarize Audio [Recording] 
+        [4] Summarize Audio [File] 
+        [5] Settings
+        [6] Exit
+
+        """)
+        choice = input("Enter your choice: ")
+        if choice == '1':
+            helper.transcribe_audio(settings)
+        elif choice == '2':
+            helper.transcribe_audio_file(settings)
+        elif choice == '3':
+            helper.summarize_audio(settings)
+        elif choice == '4':
+            helper.summarize_audio_file(settings)
+        elif choice == '5':
+            settings_menu(settings)
+        elif choice == '6':
+            clear_console()
+            os._exit(0)
+        else:
+            main_menu(settings) 
 
 # FUNCTIONS
 
@@ -133,9 +134,9 @@ def settings_menu(settings): # could optimize to use less code down the line
         confirm_action = input("ARE YOU SURE YOU WANT TO RESET SETTINGS TO DEFAULT? (y/n): ")
         if confirm_action == 'y' or confirm_action == 'Y':
             settings = {
-                "filename": default_filename,
-                "audio_filename": default_audio_filename,
-                "transcription_file": default_transcription_file
+                "filename": helper.default_filename,
+                "audio_filename": helper.default_audio_filename,
+                "transcription_file": helper.default_transcription_file
             }
             with open("settings.json", "w", encoding="utf-8") as f:
                 json.dump(settings, f, indent=4)
@@ -151,11 +152,11 @@ if __name__ == "__main__":
             settings = json.load(f)
     else:
         settings = {
-            "filename": default_filename,
-            "audio_filename": default_audio_filename,
-            "transcription_file": default_transcription_file,
-            "notes_file": default_notes_file,
-            "calendar_file": default_calendar_file
+            "filename": helper.default_filename,
+            "audio_filename": helper.default_audio_filename,
+            "transcription_file": helper.default_transcription_file,
+            "notes_file": helper.default_notes_file,
+            "calendar_file": helper.default_calendar_file
         }
         with open("settings.json", "w", encoding="utf-8") as f:
             json.dump(settings, f, indent=4)

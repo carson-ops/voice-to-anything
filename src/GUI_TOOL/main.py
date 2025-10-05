@@ -2,7 +2,8 @@
 # 1. Add settings button top left and menu when button pressed
 # 2. Add Not Recording/Recording text above Recording circle
 
-from helper import *
+import helper # circular imports
+import os
 import numpy as np
 import sys
 import json
@@ -79,11 +80,11 @@ def transcribe_or_summarize(settings):
     dialog.setLayout(layout)
 
     def summarize_and_close():
-        summarize_audio_file(settings)
+        helper.summarize_audio_file(settings)
         dialog.close()
 
     def transcribe_and_close():
-        transcribe_audio_file(settings)
+        helper.transcribe_audio_file(settings)
         dialog.close()
 
     # Connect buttons
@@ -95,11 +96,11 @@ def transcribe_or_summarize(settings):
 
 
 def record_audio(settings, stop_flag): # Button to stop recording
-    filename = settings.get("audio_filename", default_audio_filename)
+    filename = settings.get("audio_filename", helper.default_audio_filename)
 
     recording = [] # list to hold chunks of audio data
 
-    with sd.InputStream(samplerate=freq, channels=1, dtype='float32') as stream:
+    with sd.InputStream(samplerate=helper.freq, channels=1, dtype='float32') as stream:
         print("Recording!")
         while not stop_flag[0]: # stop_flag[0] == False
             data, overflowed = stream.read(1024) # reads 1024 samples at a time
@@ -115,7 +116,7 @@ def record_audio(settings, stop_flag): # Button to stop recording
     audio_data = np.vstack(recording) # switched from concat to vstack. Chuncks is a list of (1024, 1) arrays, so vstack works better because it refuses to add arrays of different dimensions
     
     # Convert float32 to int16 | GPT assisted
-    write(filename, freq, (audio_data * 32767).astype(np.int16))
+    write(filename, helper.freq, (audio_data * 32767).astype(np.int16))
     print(f"Recording saved to {filename}")
     return filename
 
@@ -175,10 +176,10 @@ if __name__ == "__main__":
             settings = json.load(f)
     else:
         settings = {
-            "audio_filename": default_audio_filename,
-            "transcription_file": default_transcription_file,
-            "notes_file": default_notes_file,
-            "calendar_file": default_calendar_file
+            "audio_filename": helper.default_audio_filename,
+            "transcription_file": helper.default_transcription_file,
+            "notes_file": helper.default_notes_file,
+            "calendar_file": helper.default_calendar_file
         }
         with open("settings.json", "w", encoding="utf-8") as f:
             json.dump(settings, f, indent=4)

@@ -1,4 +1,4 @@
-from main import summarize_long_text, main_menu
+from main import summarize_long_text
 import os
 import time
 import numpy as np
@@ -96,7 +96,7 @@ def transcribe_audio(settings):
     calendar_file = settings.get("calendar_file", default_calendar_file)
     calendar_notes(text, notes_file, calendar_file)
 
-    main_menu(settings) # END of function
+    return
 
 
 def transcribe_audio_file(settings):
@@ -113,7 +113,7 @@ def transcribe_audio_file(settings):
     calendar_file = settings.get("calendar_file", default_calendar_file)
     calendar_notes(text, notes_file, calendar_file)
 
-    main_menu(settings) # END of function
+    return
 
 
 def summarize_audio(settings):
@@ -138,7 +138,7 @@ def summarize_audio(settings):
     calendar_notes(text, notes_file, calendar_file)
     
 
-    main_menu(settings) # END of function
+    return
 
 def summarize_audio_file(settings):
     clear_console()
@@ -157,7 +157,7 @@ def summarize_audio_file(settings):
     calendar_file = settings.get("calendar_file", default_calendar_file)
     calendar_notes(text, notes_file, calendar_file)
 
-    main_menu(settings) # END of function
+    return
 
 def calendar_notes(text, notes_file, calendar_file):
 
@@ -178,3 +178,5 @@ def calendar_notes(text, notes_file, calendar_file):
         # print(output)
         with open(calendar_file, "w") as f:
             f.write(output)
+    else:
+        pass
