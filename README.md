@@ -30,12 +30,13 @@ To get started follow along.
 1. Go into src/CLI_TOOL
 2. Run **main.py**
 3. You will be prompted options to transcribe or summarize an audio recording or file | **TO CHANGE AUDIO FILE GO TO SETTINGS TAB**
-4. After file or recording is done you will be asked if you want to save the transcription
+4. After file or recording is done you will be asked if you want to save the transcription/summarization
 5. Then you will be asked if you want to scan your transcription/summarization for Notes
 6. Then you will be asked if you want to scan your transcription/summarization for Calendar information
 ### Settings
 - If you see in the main menu there is a Settings tab.
 - The settings tab is to change your directories and (or) names
+- **Your directory has to exist.** 
 - If your file directory is invalid in Settings than your whichever file directory was invalid will fallback to default. See [Here](https://github.com/carson-ops/voice-to-anything/blob/main/src/CLI_TOOL/helper.py#L16)
 
 ---
@@ -71,8 +72,8 @@ To get started follow along.
 
 ## GUI Tool
 1. Run **main.py**
-2. Press the blue circular button in the middle of the screen to record
+2. Press the blue circular button in the middle of the GUI to record
 3. Press again to stop recording
 4. You will be prompted with 1 box, asking if you would like to transcribe or summarize
 5. After choosing you will wait a little bit for the AI to scan for calendar information and note taking.
-Adding a settings menu in the future
+- **Adding a settings menu in the future**
