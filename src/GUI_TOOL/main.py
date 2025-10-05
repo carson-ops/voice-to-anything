@@ -1,7 +1,6 @@
 # TODO
 # 1. Add settings button top left and menu when button pressed
 # 2. Add Not Recording/Recording text above Recording circle
-# 3. Figure out why whenever I change my JSON file and record it doesnt save with a new file name until a restart. Audio and Transcription name
 
 from helper import *
 import numpy as np
