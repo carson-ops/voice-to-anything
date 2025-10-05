@@ -30,7 +30,7 @@ To get started follow along.
 1. Go into src/CLI_TOOL
 2. Run **main.py**
 3. You will be prompted options to transcribe or summarize an audio recording or file | **TO CHANGE AUDIO FILE GO TO SETTINGS TAB**
-4. After transcription or recording is done you will be asked if you want to save the transcription
+4. After file or recording is done you will be asked if you want to save the transcription
 5. Then you will be asked if you want to scan your transcription/summarization for Notes
 6. Then you will be asked if you want to scan your transcription/summarization for Calendar information
 ### Settings
