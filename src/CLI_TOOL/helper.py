@@ -62,7 +62,7 @@ def record_audio(filename): # Enter to stop recording
 
 
 def save_transcription(text, transcription_filename):
-    save_option = input("\nWould you like to save this transcription? (y/n): ").lower()
+    save_option = input("\nWould you like to save this transcription/summarization? (y/n): ").lower()
     if save_option == 'y':
         with open(transcription_filename, "w", encoding="utf-8") as f:
             f.write(f"TRANSCRIPTION: \n{text}")
