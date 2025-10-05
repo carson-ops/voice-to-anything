@@ -159,7 +159,7 @@ def summarize_audio_file(settings):
 
 def calendar_notes(text, notes_file, calendar_file):
 
-    notes_userin = input("\nDo you want to scan this transcription for notes (will be stored in a .txt file)? (y/n): ").lower()
+    notes_userin = input("\nDo you want to scan this transcription/summarization for notes (will be stored in a .txt file)? (y/n): ").lower()
     if notes_userin == 'y' or notes_userin == 'yes':
         output = int_model.generate(f"Store the notes using a dash and newlines. Scan this text for any Notes to review.:\n{text}\n If no meaningful notes are found then say, No important notes found.")
         output = output.partition("<|endoftext|>")[0] # kill the stupid nonsense generation that it does to reach token quota | also took longer than expected because I forgot to assign a output again to this line -_-
@@ -169,7 +169,7 @@ def calendar_notes(text, notes_file, calendar_file):
     else:
         pass
 
-    calendar_userin = input("\nDo you want to scan this transcription for Calendar plans (will be stored in a .txt file)? (y/n): ").lower()
+    calendar_userin = input("\nDo you want to scan this transcription/summarization for Calendar plans (will be stored in a .txt file)? (y/n): ").lower()
     if calendar_userin == 'y' or calendar_userin == 'yes':
         output = int_model.generate(f"Scan this text for important events to put in a calendar:\n{text}\nIf there is important calenar events store it like this, Date | Time | Event/Plan; state this first then put the calendar events. If there is not any important events then say, No important events found.")
         output = output.partition("<|endoftext|>")[0] # Used .partition() instead of .split() because we only need to stop at index before <|endoftext|> we dont need to keep finding more <|endoftext|> after we already found one, why? because we "delete" everything after the 1st <|endoftext|>
