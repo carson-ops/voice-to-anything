@@ -28,9 +28,17 @@ To get started follow along.
 # How to Run
 ## CLI Tool
 1. Go into src/CLI_TOOL
-2. Run main.py
-3. **Will add more details later**
+2. Run **main.py**
+3. You will be prompted options to transcribe or summarize an audio recording or file | **TO CHANGE AUDIO FILE GO TO SETTINGS TAB**
+4. After transcription or recording is done you will be asked if you want to save the transcription
+5. Then you will be asked if you want to scan your transcription/summarization for Notes
+6. Then you will be asked if you want to scan your transcription/summarization for Calendar information
+### Settings
+- If you see in the main menu there is a Settings tab.
+- The settings tab is to change your directories and (or) names
+- If your file directory is invalid in Settings than your whichever file directory was invalid will fallback to default. See [Here](https://github.com/carson-ops/voice-to-anything/blob/main/src/CLI_TOOL/helper.py#L16)
 
+---
 ## Docker Tool
 1. Go into src/DOCKER_TOOL
 2. ```bash
@@ -59,6 +67,12 @@ To get started follow along.
  - **File Name**: finished_recording.wav
  - **Audio File Name**: M_0880_14y6m_1.wav
  - **Transcription Text Name**: transcription.txt
+---
 
 ## GUI Tool
-- **Coming Soon**
+1. Run **main.py**
+2. Press the blue circular button in the middle of the screen to record
+3. Press again to stop recording
+4. You will be prompted with 1 box, asking if you would like to transcribe or summarize
+5. After choosing you will wait a little bit for the AI to scan for calendar information and note taking.
+Adding a settings menu in the future
