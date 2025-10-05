@@ -13,6 +13,7 @@ default_ai_model = "turbo"
 model = whisper.load_model(default_ai_model)
 int_model =  GPT4All("Phi-3-mini-4k-instruct.Q4_0.gguf")
 
+# START OF DEFAULT DIRECTORIES
 default_filename = "finished_recording.wav"
 default_audio_filename = "M_0880_14y6m_1.wav"
 default_transcription_file = "transcription.txt"
@@ -22,6 +23,7 @@ os.makedirs(review_dir, exist_ok=True) # wow how could I overlook this
 
 default_notes_file = os.path.join(review_dir, "notes.txt") # Review/notes.txt
 default_calendar_file = os.path.join(review_dir, "calendar_dates.txt")
+# END OF DEFAULT DIRECTORIES
 
 freq = 44100
 
